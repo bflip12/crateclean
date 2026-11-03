@@ -1,0 +1,32 @@
+name: Wrong or missed cover
+description: CrateClean suggested the wrong cover, or didn't find one that exists.
+labels: [art-matching]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please give the metadata only; there's no need to attach audio files.
+  - type: textarea
+    id: release
+    attributes:
+      label: The release
+      description: The folder name, the album and artist tags, and the number of tracks.
+      placeholder: |
+        Folder: Artist-Title-(CAT001)-WEB-2024-GROUP
+        Album tag: Title EP
+        Artist tag: Artist
+        Tracks: 4
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: The right release
+      description: A MusicBrainz or Discogs link, if you know it.
+  - type: textarea
+    id: actual
+    attributes:
+      label: What CrateClean suggested
+      description: The source, the score and the reason it gave, or "no confident match".
+    validations:
+      required: true

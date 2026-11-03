@@ -1,0 +1,50 @@
+name: Wrong cleanup
+description: CrateClean missed some junk, or removed something it shouldn't have.
+labels: [cleaning]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Concrete examples are what make the cleaning rules better. Please give the tag values exactly as they are; there's no need to attach audio files.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What went wrong?
+      options:
+        - It missed junk
+        - It removed or changed something it shouldn't have
+    validations:
+      required: true
+  - type: dropdown
+    id: field
+    attributes:
+      label: Field
+      options:
+        - Title
+        - Artist
+        - Album
+        - Comment
+    validations:
+      required: true
+  - type: textarea
+    id: before
+    attributes:
+      label: The value before
+      description: Exactly as it is in the file, including spacing.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What it should be
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What CrateClean suggested
+  - type: input
+    id: format
+    attributes:
+      label: File format and tag version
+      placeholder: e.g. MP3 with ID3v2.3, FLAC, M4A

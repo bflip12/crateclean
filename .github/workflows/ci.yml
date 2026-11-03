@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # macOS only until the Windows milestone (docs/adr/0010-macos-first.md), which adds a
+  # windows-latest job here.
+  build-and-test:
+    name: Lint, test and build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install Python and dependencies
+        run: uv sync --locked
+
+      - name: Check formatting, lint and types
+        run: |
+          uv run ruff format --check
+          uv run ruff check
+          uv run pyright
+
+      - name: Install ffmpeg
+        run: brew install ffmpeg
+
+      - name: Run tests
+        run: uv run pytest
+        env:
+          QT_QPA_PLATFORM: offscreen
+
+      - name: Build the app
+        run: uv run pyinstaller packaging/crateclean.spec --noconfirm

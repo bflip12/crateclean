@@ -1,0 +1,19 @@
+# Python and uv
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Builds
+build/
+dist/
+
+# Generated test fixtures
+tests/fixtures/generated/
+
+# OS files
+.DS_Store
+Thumbs.db

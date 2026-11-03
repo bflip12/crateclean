@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: See what's planned
+    url: https://github.com/bflip12/crateclean/blob/main/ROADMAP.md
+    about: Check the roadmap before suggesting a feature.
+  - name: Report a security vulnerability
+    url: https://github.com/bflip12/crateclean/security/advisories/new
+    about: Please report security issues privately, not as a public issue.
