@@ -45,4 +45,4 @@ Add to this as they're found. Each entry: the symptom, the cause, and what to do
 
 ## Status
 
-Nothing is built yet. Start with the cleaning engine and its tests (the **Now** section of the roadmap).
+The project skeleton is in place: empty core packages, a test suite with generated fixtures, and a PyInstaller build of an empty window. Next are the tag round-trip tests ([ADR 0005](docs/adr/0005-tag-engine.md)), then the rest of the cleaning engine (the **Now** section of the roadmap).
