@@ -1,0 +1,1 @@
+"""CrateClean's tests."""
