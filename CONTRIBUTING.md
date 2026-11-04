@@ -164,7 +164,7 @@ Maintainers only:
 1. Bump `version` in `pyproject.toml`.
 2. In `CHANGELOG.md`, move the **Unreleased** entries under the new version with today's date, and remove shipped items from `ROADMAP.md`.
 3. Make these changes on a `release/vX.Y.Z` branch and open a pull request titled "Release vX.Y.Z".
-4. Push a release candidate tag (`vX.Y.Z-rc1`) from that branch. It becomes a pre-release. Install the macOS build from it and try it. Once Windows is supported, also go through [Testing on Windows](#testing-on-windows).
+4. Push a release candidate tag (`vX.Y.Z-rc1`) from that branch. It becomes a pre-release. Install the macOS build from it and try it. Apply a cleanup to a copy of some tracks that are in a Rekordbox library, run **Reload Tag** on them in Rekordbox, and check their BPM, key, comments and cues are unchanged ([ADR 0011](docs/adr/0011-id3-text-terminators.md)). Once Windows is supported, also go through [Testing on Windows](#testing-on-windows).
 5. Once the pull request is merged, tag the merge commit on `main` as `vX.Y.Z` and push the tag.
 6. The tag starts the **Release** workflow. It builds the app with PyInstaller, packs a DMG (and, once Windows is supported, a Windows installer), and publishes them to GitHub Releases with that changelog section as the notes.
 

@@ -14,10 +14,11 @@ Each file here records one decision that shapes CrateClean: the situation, what 
 | [0008](0008-unsigned-releases.md) | Ship unsigned builds from GitHub Releases | Accepted |
 | [0009](0009-gpl-licence.md) | License the project under GPL-3.0-or-later | Accepted |
 | [0010](0010-macos-first.md) | Ship for macOS first, and add Windows last | Accepted |
+| [0011](0011-id3-text-terminators.md) | Compare untouched ID3 text frames by value, not by bytes | Accepted |
 
 ## Writing a new one
 
-Copy [template.md](template.md) to the next number with a short slug, e.g. `0011-aiff-support.md`, fill it in, and add it to the table above in the same pull request as the change it describes.
+Copy [template.md](template.md) to the next number with a short slug, e.g. `0012-aiff-support.md`, fill it in, and add it to the table above in the same pull request as the change it describes.
 
 - Keep it short: a reader should get the decision in a minute.
 - Don't edit an accepted ADR's decision. If it changes, write a new ADR that supersedes it, and set the old one's status to `Superseded by [00NN](00NN-slug.md)`.
