@@ -34,8 +34,8 @@ Every write, for every file, goes through these steps in `crateclean.engine.writ
 1. **Check** that the file hasn't changed since it was scanned (size, modification time and content hash).
 2. **Back up** the whole file to `<userData>/backups/<runId>/`, mirroring its path relative to its music folder.
 3. **Snapshot** every frame (id, descriptor, decoded value), the raw bytes of frames CrateClean doesn't understand, and a hash of the audio data.
-4. **Write** the approved changes in place, keeping the tag version and multi-value separators.
-5. **Verify** by taking the snapshot again. Only the approved fields may differ. Unknown frames must be byte-identical, and the audio hash must match.
+4. **Write** the approved changes in place, keeping the tag version, multi-value separators and ID3v1 footer. mutagen rebuilds the ID3v1 footer with an empty comment, so the engine writes the footer itself after mutagen saves.
+5. **Verify** by taking the snapshot again. Only the approved fields may differ. Text frames are compared by value, because mutagen adds a terminator to every text value it writes ([ADR 0011](adr/0011-id3-text-terminators.md)). Every other frame must be byte-identical, and the audio hash must match.
 6. **Restore** from the backup straight away if verification fails, and record the file as a problem in the run's report.
 
 Files are written in place rather than through a temporary file and rename, because the rules forbid creating files in music folders and a rename changes the file's creation date. The backup is what makes an interrupted write recoverable.

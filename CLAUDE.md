@@ -38,11 +38,15 @@ Add to this as they're found. Each entry: the symptom, the cause, and what to do
 
 - Run everything through uv: `uv sync` once, then `uv run pytest`, `uv run ruff format`, `uv run pyright`. Don't install packages with `pip` into the system Python.
 - The tests generate audio fixtures with ffmpeg the first time they run (`tests/fixtures/make_fixtures.py`, called from `conftest.py`).
-- mutagen converts ID3v2.3 frames to their v2.4 form in memory when it loads a file, unless told not to. Saving with `v2_version=3` converts them back, but not always exactly. The round-trip tests guard this; don't change how files are loaded or saved without them passing.
+- mutagen converts ID3v2.3 frames to their v2.4 form in memory when it loads a file, unless told not to. Saving with `v2_version=3` converts them back, but not always exactly. The round-trip tests guard this; don't change how files are loaded or saved without them passing. Load ID3 only through `crateclean.engine.tag_io.load_id3` (`translate=False, load_v1=False`) and save only through `crateclean.engine.write.save_id3`.
+- mutagen's defaults upgrade ID3v2.3 to v2.4 and drop frames it doesn't know, and with `load_v1=True` it copies ID3v1 values into the v2 tag on save. The options in `tag_io` and `write` prevent both.
+- mutagen rebuilds the ID3v1 footer on save and leaves its comment empty. `save_id3` writes the footer back itself; pass the footer you want kept.
+- mutagen ends every ID3 text value with a null terminator, so untouched text frames aren't byte-identical after a save. That's accepted ([ADR 0011](docs/adr/0011-id3-text-terminators.md)): compare text frames by value, everything else by bytes.
+- mutagen's type hints are incomplete, which pyright's strict mode flags in `engine`. Suppress each case on its line with `# pyright: ignore[rule]` and a comment saying why.
 - Windows comes last ([ADR 0010](docs/adr/0010-macos-first.md)), and the maintainer has no Windows machine. Until the Windows milestone, CI runs on macOS only, but write code that will work on Windows: `pathlib` for paths, Python scripts rather than shell scripts, and nothing macOS-specific outside `crateclean.ui.platform`. CONTRIBUTING.md's "Testing on Windows" is the plan for when it starts.
 - Store app data with `QStandardPaths.AppLocalDataLocation`, not `AppDataLocation`. On Windows the latter is the roaming profile, which some networks sync between machines, and backups can be gigabytes.
 - Before a release, test the PyInstaller build, not just `uv run`. PyInstaller can miss modules and data files that only load at runtime.
 
 ## Status
 
-The project skeleton is in place: empty core packages, a test suite with generated fixtures, and a PyInstaller build of an empty window. Next are the tag round-trip tests ([ADR 0005](docs/adr/0005-tag-engine.md)), then the rest of the cleaning engine (the **Now** section of the roadmap).
+The project skeleton and the tag round-trip tests ([ADR 0005](docs/adr/0005-tag-engine.md), [ADR 0011](docs/adr/0011-id3-text-terminators.md)) are in place, with the low-level loads and saves in `engine.tag_io` and `engine.write`. Next are the cleaning rules, then scanning, the write pipeline and the command line (the **Now** section of the roadmap).

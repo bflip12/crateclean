@@ -1,6 +1,7 @@
 """Shared fixtures: the generated audio files, copied into each test's temporary folder."""
 
 import shutil
+from collections.abc import Callable
 from pathlib import Path
 
 import pytest
@@ -15,6 +16,10 @@ def generated_dir() -> Path:
 
 
 @pytest.fixture
-def id3v23_mp3(generated_dir: Path, tmp_path: Path) -> Path:
-    """A copy of the ID3v2.3 MP3 fixture in the test's temporary folder."""
-    return Path(shutil.copy2(generated_dir / "id3v23.mp3", tmp_path))
+def fixture_copy(generated_dir: Path, tmp_path: Path) -> Callable[[str], Path]:
+    """Copies a generated fixture, by file name, into the test's temporary folder."""
+
+    def copy(name: str) -> Path:
+        return Path(shutil.copy2(generated_dir / name, tmp_path / name))
+
+    return copy

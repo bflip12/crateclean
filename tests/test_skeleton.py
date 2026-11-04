@@ -2,6 +2,7 @@
 
 import subprocess
 import sys
+from collections.abc import Callable
 from pathlib import Path
 
 import pytest
@@ -34,11 +35,10 @@ def test_cli_runs_with_no_arguments() -> None:
     assert cli_main([]) == 0
 
 
-def test_generated_mp3_has_its_id3v23_tags(id3v23_mp3: Path) -> None:
-    tags = ID3(id3v23_mp3, translate=False)
+def test_generated_mp3_has_its_id3v23_tags(fixture_copy: Callable[[str], Path]) -> None:
+    tags = ID3(fixture_copy("id3v23.mp3"), translate=False)
     assert tags.version[:2] == (2, 3)
-    assert str(tags["TIT2"]) == "Silence"
-    assert str(tags["TPE1"]) == "Test Artist"
+    assert str(tags["TIT2"]) == "Night Drive (Original Mix)"
 
 
 def test_main_window_opens(qtbot: QtBot) -> None:

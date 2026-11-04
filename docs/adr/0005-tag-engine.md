@@ -1,6 +1,6 @@
 # 0005. Use mutagen as the tag engine, guarded by round-trip tests
 
-**Status:** Accepted
+**Status:** Accepted. Byte-identical ID3 text frames are superseded by [0011](0011-id3-text-terminators.md).
 
 ## Context
 
